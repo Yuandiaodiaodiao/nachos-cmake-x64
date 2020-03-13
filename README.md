@@ -146,3 +146,29 @@ add_subdirectory(vm)
 ## 原生makefile的开发
 
 使用pip install compiledb 加上插件makefile 可以让clion拥有编译 调试makefile的功能 (不过clion好像必须安装在linux上才可以) 具体详见 https://blog.csdn.net/lylwo317/article/details/86673912
+
+## 进度
+
+threads √
+
+vm √
+
+ass3 √
+
+coff一家 √
+
+filesys 缺函数
+
+monitor √
+
+network 缺函数
+
+userprog √
+
+lab3 缺函数
+
+lab78 √
+
+lab5 没有makefile
+
+test 建议直接make

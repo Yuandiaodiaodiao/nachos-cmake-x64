@@ -18,8 +18,8 @@ include_directories(
 
 )
 if(MAKEFILE_USERPROG_LOCAL)
-#    remove_definitions(-DFILESYS_STUB)
-#    add_definitions(-DFILESYS)
+    remove_definitions(-DFILESYS_STUB)
+    add_definitions(-DFILESYS)
 else()
     add_definitions(-DFILESYS_NEEDED -DFILESYS)
 endif()
