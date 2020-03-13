@@ -1,0 +1,1 @@
+/lib/cpp -D HOST_i386 -D HOST_LINUX  $1/threads/switch-linux.s > $1/threads/switch.s
