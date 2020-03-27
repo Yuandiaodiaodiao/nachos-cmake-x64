@@ -28,7 +28,7 @@ add_subdirectory(monitor)
 add_subdirectory(network)
 add_subdirectory(userprog)
 add_subdirectory(vm)
-
+add_subdirectory(lab2)
 
 
 
