@@ -15,8 +15,8 @@
 #include "filehdr.h"
 #include "openfile.h"
 #include "system.h"
+#include "filesys.h"
 
-#ifndef FILESYS_STUB
 //----------------------------------------------------------------------
 // OpenFile::OpenFile
 // 	Open a Nachos file for reading and writing.  Bring the file header
@@ -30,6 +30,7 @@ OpenFile::OpenFile(int sector)
     hdr = new FileHeader;
     hdr->FetchFrom(sector);
     seekPosition = 0;
+    hdrSector = sector;
 }
 
 //----------------------------------------------------------------------
@@ -144,19 +145,30 @@ OpenFile::ReadAt(char *into, int numBytes, int position)
 int
 OpenFile::WriteAt(char *from, int numBytes, int position)
 {
-    int fileLength = hdr->FileLength();
+    int fileLength = hdr->FileLength(); // 要写入文件大小
     int i, firstSector, lastSector, numSectors;
     bool firstAligned, lastAligned;
     char *buf;
 
-    if ((numBytes <= 0) || (position >= fileLength))
-	return 0;				// check request
-    if ((position + numBytes) > fileLength){
-        	numBytes = fileLength - position;
+    if ((numBytes <= 0) || (position > fileLength))//写入指针溢出  // delete  =
+	return -1;				// check request
+    if ((position + numBytes) > fileLength)//写入内容溢出
+    {
+        int moreBytes  = position+numBytes -fileLength;//计算额外的内容
+        BitMap *freeBitMap = fileSystem ->getBitMap();//查找空余扇区
+
+        bool hdrRet = hdr->Allocate(freeBitMap,fileLength,moreBytes);//额外的内容分配额外的扇区
+        if(!hdrRet)
+        return -1;
+
+        fileSystem->setBitMap(freeBitMap);//修改空闲bitmap
+
     }
-    DEBUG('f', "Writing %d bytes at %d, from file of length %d.\n",
+	//numBytes = fileLength - position;
+
+    DEBUG('f', "Writing %d bytes at %d, from file of length %d.\n", 	
 			numBytes, position, fileLength);
-    //起止扇区
+
     firstSector = divRoundDown(position, SectorSize);
     lastSector = divRoundDown(position + numBytes - 1, SectorSize);
     numSectors = 1 + lastSector - firstSector;
@@ -176,7 +188,7 @@ OpenFile::WriteAt(char *from, int numBytes, int position)
 // copy in the bytes we want to change 
     bcopy(from, &buf[position - (firstSector * SectorSize)], numBytes);
 
-// write modified sectors back
+// write modified sectors back    
     for (i = firstSector; i <= lastSector; i++)	
         synchDisk->WriteSector(hdr->ByteToSector(i * SectorSize), 
 					&buf[(i - firstSector) * SectorSize]);
@@ -194,5 +206,8 @@ OpenFile::Length()
 { 
     return hdr->FileLength(); 
 }
-#else
-#endif
+
+void OpenFile::WriteBack()
+{
+    hdr->WriteBack(hdrSector);
+}

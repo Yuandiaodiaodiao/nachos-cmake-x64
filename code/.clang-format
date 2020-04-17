@@ -27,7 +27,7 @@ SpacesInParentheses : true
 # 多行声明语句按照=对齐
 AlignConsecutiveDeclarations: true
 # 连续的赋值语句以 = 为中心对齐
-AlignConsecutiveAssignments: true
+AlignConsecutiveAssignments: false
 # 等号两边的空格
 SpaceBeforeAssignmentOperators: true
 # 容器类的空格 例如 OC的字典
