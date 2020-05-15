@@ -16,8 +16,3 @@ include_directories(
         ${CMAKE_HOME_DIRECTORY}/userprog
         ${CMAKE_HOME_DIRECTORY}/bin
 )
-add_definitions(-DUSER_PROGRAM)
-if (MAKE_FILE_FILESYS_LOCAL)
-else ()
-    add_definitions(-DFILESYS_NEEDED -DFILESYS_STUB)
-endif ()

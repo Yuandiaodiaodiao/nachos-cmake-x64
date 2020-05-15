@@ -1,4 +1,3 @@
-set(MAKEFILE_FILESYS_LOCAL ON)
 FILE(GLOB_RECURSE filesysCPP
         ${CMAKE_HOME_DIRECTORY}/userprog/bitmap.cc
         ${CMAKE_HOME_DIRECTORY}/filesys/directory.cc
@@ -9,13 +8,8 @@ FILE(GLOB_RECURSE filesysCPP
         ${CMAKE_HOME_DIRECTORY}/filesys/synchdisk.cc
         ${CMAKE_HOME_DIRECTORY}/machine/disk.cc
         )
-if(MAKEFILE_USERPROG_LOCAL)
-    remove_definitions(-DFILESYS_STUB)
-    add_definitions(-DFILESYS)
-else()
-    include_directories(
-            ${CMAKE_HOME_DIRECTORY}/userprog
-            ${CMAKE_HOME_DIRECTORY}/filesys
-    )
-    add_definitions(-DFILESYS_NEEDED -DFILESYS)
-endif()
+
+include_directories(
+        ${CMAKE_HOME_DIRECTORY}/userprog
+        ${CMAKE_HOME_DIRECTORY}/filesys
+)

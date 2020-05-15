@@ -1,25 +1,28 @@
+set(MAKEFILE_USERPROG_LOCAL ON)
 include(${CMAKE_HOME_DIRECTORY}/threads/threads_core.cmake)
-FILE(GLOB_RECURSE lab7CPP
-        ${CMAKE_HOME_DIRECTORY}/*/addrspace.cc
-        ${CMAKE_HOME_DIRECTORY}/*/bitmap.cc
+
+
+FILE(GLOB_RECURSE userprogCPP
+        ${CMAKE_HOME_DIRECTORY}/userprog/addrspace.cc
+        ${CMAKE_HOME_DIRECTORY}/userprog/bitmap.cc
         exception.cc
-        ${CMAKE_HOME_DIRECTORY}/*/progtest.cc
-        ${CMAKE_HOME_DIRECTORY}/*/console.cc
-        ${CMAKE_HOME_DIRECTORY}/*/machine.cc
-        ${CMAKE_HOME_DIRECTORY}/*/mipssim.cc
-        ${CMAKE_HOME_DIRECTORY}/*/translate.cc
+        ${CMAKE_HOME_DIRECTORY}/userprog/progtest.cc
+        ${CMAKE_HOME_DIRECTORY}/machine/console.cc
+        ${CMAKE_HOME_DIRECTORY}/machine/machine.cc
+        ${CMAKE_HOME_DIRECTORY}/machine/mipssim.cc
+        ${CMAKE_HOME_DIRECTORY}/machine/translate.cc
+
         )
 
 include_directories(
-        ${CMAKE_HOME_DIRECTORY}/bin
-        ${CMAKE_HOME_DIRECTORY}/userprog
         ${CMAKE_HOME_DIRECTORY}/filesys
+        ${CMAKE_HOME_DIRECTORY}/userprog
+        ${CMAKE_HOME_DIRECTORY}/bin
 )
-add_definitions(-DUSER_PROGRAM)
-if (MAKE_FILE_FILESYS_LOCAL)
-else ()
-    add_definitions(-DFILESYS_NEEDED -DFILESYS_STUB)
-endif ()
-SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable(lab7_nachos ${lab7CPP} ${threadsCPP} ${CMAKE_HOME_DIRECTORY}/threads/main.cc)
+SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+add_definitions(-DUSER_PROGRAM)
+add_definitions(-DFILESYS_NEEDED -DFILESYS_STUB)
+add_definitions(-w)
+
+add_executable(lab7-8 ${userprogCPP} ${filesysCPP}  ${threadsCPP} ${CMAKE_HOME_DIRECTORY}/threads/main.cc)

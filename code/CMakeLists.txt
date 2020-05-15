@@ -57,8 +57,6 @@ add_subdirectory(lab5)
 
 
 
-
-
 #add_definitions(-DMAKEFILE_THREADS)
 #add_definitions(-DMAKEFILE_THREADS_LOCAL)
 #add_definitions(-DMAKEFILE_COMMON)
